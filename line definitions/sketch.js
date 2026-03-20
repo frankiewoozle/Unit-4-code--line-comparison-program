@@ -12,6 +12,8 @@ let targetY = [];  //where the lines want to move to, y is up
 let animSpeed = 0.1; //how fast lines rearrange 
 
 let selectedImage = null;
+let selectedImageType = null; 
+
 let lineImages = {};
 let originalOrder = [];
 
@@ -165,10 +167,11 @@ function windowResized() {
 function mousePressed() {
 
     //if an image is already shown when clicked again will stop showing
-    if (selectedImage) {
-        selectedImage = null;
-        return;
-    }
+   if (selectedImage) {
+    selectedImage = null;
+    selectedImageType = null;
+    return;
+}
 
     let boxWidth = width * boxWidthRatio;
     let boxHeight = height * boxHeightRatio;
@@ -187,6 +190,7 @@ function mousePressed() {
             mouseY <= boxY + boxHeight
         ) {
             selectedImage = lineImages[line.label];
+            selectedImageType = "line";
             return;
         }
 //to click turbulance at end of line and have those images shown
@@ -204,8 +208,9 @@ function mousePressed() {
                     mouseY <= divY + divH
                 ) {
                     selectedImage = turbulenceImages[line.label];
+                    selectedImageType = "turbulence";
                     console.log("clicked");
-                    textAlign(CENTER, TOP);
+                    //textAlign(CENTER, TOP);
                 }
             }
         });
@@ -542,14 +547,19 @@ function draw() {
 
         image(selectedImage, x, y, imgWidth, imgHeight);
 
-      //if its a turbulance image shown also show the label underneath
+      //if its a turbulance image shown also show the label
+       if (selectedImage) {
+    if (selectedImageType === "turbulence") {
         turbulenceLabelDiv.show();
         turbulenceLabelDiv.position(
             Math.round(x + imgWidth / 2 - turbulenceLabelDiv.size().width / 2),
             Math.round(y + imgHeight + 10)
         );
     } else {
+        turbulenceLabelDiv.hide();
+    }
+} else {
      
         turbulenceLabelDiv.hide();
     }
-}
+    }}
