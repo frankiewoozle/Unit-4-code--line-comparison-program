@@ -170,6 +170,7 @@ function mousePressed() {
    if (selectedImage) {
     selectedImage = null;
     selectedImageType = null;
+    turbulenceLabelDiv.hide();
     return;
 }
 
@@ -242,6 +243,7 @@ function positionButtons() {
 //flips between the different modes, while keeping the turbulance visible, for comparing
 function changeMode(newMode) {
     mode = newMode;
+    turbulenceLabelDiv.hide();
 
     if (mode === "time") {
         lineInfo.sort((a, b) => a.times.reduce((sum, t) => sum + t, 0) - b.times.reduce((sum, t) => sum + t, 0));
@@ -558,8 +560,5 @@ function draw() {
     } else {
         turbulenceLabelDiv.hide();
     }
-} else {
-     
-        turbulenceLabelDiv.hide();
-    }
-    }}
+
+    }}}
